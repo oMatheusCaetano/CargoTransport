@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(path = "/api/vehicle", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VehicleController {
@@ -16,6 +18,9 @@ public class VehicleController {
 
     @GetMapping
     public Iterable<Vehicle> all() { return this.repository.findAll(); }
+
+    @GetMapping(path = "/{id}")
+    public Optional<Vehicle> find(@PathVariable long id) { return this.repository.findById(id); }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
