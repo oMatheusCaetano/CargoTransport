@@ -1,7 +1,13 @@
 package br.com.unialfa.cargotransp.CagoTransp.Address.domain;
 
+import javax.persistence.*;
+
+@Entity
 public class Address {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String street;
     private String zipCode;
     private String complement;
@@ -10,6 +16,7 @@ public class Address {
     private String country;
     private int number;
 
+    public long getId() { return this.id; }
     public String getStreet() { return this.street; }
     public String getZipCode() { return this.zipCode; }
     public String getComplement() { return this.complement; }
@@ -17,6 +24,11 @@ public class Address {
     public String getState() { return this.state; }
     public String getCountry() { return this.country; }
     public int getNumber() { return this.number; }
+
+    public Address setId(long id) {
+        this.id = id;
+        return this;
+    }
 
     public Address setStreet(String street) {
         this.street = street;
