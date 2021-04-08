@@ -1,5 +1,7 @@
 package br.com.unialfa.cargotransp.CagoTransp;
 
+import br.com.unialfa.cargotransp.CagoTransp.Address.domain.Address;
+import br.com.unialfa.cargotransp.CagoTransp.Cargo.domain.Cargo;
 import br.com.unialfa.cargotransp.CagoTransp.Delivery.domain.Delivery;
 import br.com.unialfa.cargotransp.CagoTransp.Delivery.repository.DeliveryRepository;
 import br.com.unialfa.cargotransp.CagoTransp.Vehicle.domain.Vehicle;
@@ -75,6 +77,39 @@ public class CagoTranspApplication {
 
 
 
+
+        // Cargos
+        Cargo[] cargos = {
+            new Cargo()
+                .setHeight(100.0)
+                .setWidth(203.0)
+                .setWeight(120.0),
+            new Cargo()
+                .setHeight(100.0)
+                .setWidth(203.0)
+                .setWeight(120.0),
+        };
+
+
+        // Cargos
+        Address[] addresses = {
+            new Address()
+                .setCity("Goiânia")
+                .setState("Goiás")
+                .setComplement("Qd 0 Lt 0")
+                .setCountry("Brasil")
+                .setZipCode("74000000")
+                .setNumber(77),
+            new Address()
+                .setCity("Goiânia")
+                .setState("Goiás")
+                .setComplement("Qd 0 Lt 0")
+                .setCountry("Brasil")
+                .setZipCode("74000000")
+                .setNumber(77),
+        };
+
+
         // Seed Deliveries
         Delivery[] deliveries = {
             new Delivery()
@@ -82,13 +117,17 @@ public class CagoTranspApplication {
                 .setConclusion(LocalDate.now())
                 .setExpected(LocalDate.now())
                 .setSubTotal(new BigDecimal(780))
-                .setTotal(new BigDecimal(1300)),
+                .setTotal(new BigDecimal(1300))
+                .setCargo(cargos[0])
+                .setAddress(addresses[0]),
             new Delivery()
                 .setCreated(LocalDate.now())
                 .setConclusion(LocalDate.now())
                 .setExpected(LocalDate.now())
                 .setSubTotal(new BigDecimal(820))
-                .setTotal(new BigDecimal(1900)),
+                .setTotal(new BigDecimal(1900))
+                .setCargo(cargos[1])
+                .setAddress(addresses[1]),
         };
 
         for(Delivery delivery : deliveries){

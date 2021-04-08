@@ -1,11 +1,10 @@
 package br.com.unialfa.cargotransp.CagoTransp.Delivery.domain;
 
+import br.com.unialfa.cargotransp.CagoTransp.Address.domain.Address;
+import br.com.unialfa.cargotransp.CagoTransp.Cargo.domain.Cargo;
 import br.com.unialfa.cargotransp.CagoTransp.Client.domain.Client;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -15,6 +14,13 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Cargo cargo;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
+
     private LocalDate created;
     private LocalDate expected;
     private LocalDate conclusion;
@@ -22,6 +28,8 @@ public class Delivery {
     private BigDecimal total;
 
     public long getId() { return this.id; }
+    public Cargo getCargo() { return this.cargo; }
+    public Address getAddress() { return this.address; }
     public LocalDate getExpected() { return this.expected; }
     public LocalDate getCreated() { return this.created; }
     public LocalDate getConclusion() { return this.conclusion; }
@@ -30,6 +38,16 @@ public class Delivery {
 
     public Delivery setId(long id) {
         this.id = id;
+        return this;
+    }
+
+    public Delivery setCargo(Cargo cargo) {
+        this.cargo = cargo;
+        return this;
+    }
+
+    public Delivery setAddress(Address address) {
+        this.address = address;
         return this;
     }
 
