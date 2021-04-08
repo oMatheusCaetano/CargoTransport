@@ -1,5 +1,7 @@
 package br.com.unialfa.cargotransp.CagoTransp;
 
+import br.com.unialfa.cargotransp.CagoTransp.Delivery.domain.Delivery;
+import br.com.unialfa.cargotransp.CagoTransp.Delivery.repository.DeliveryRepository;
 import br.com.unialfa.cargotransp.CagoTransp.Vehicle.domain.Vehicle;
 import br.com.unialfa.cargotransp.CagoTransp.Vehicle.domain.VehicleStatus;
 import br.com.unialfa.cargotransp.CagoTransp.Vehicle.repository.VehicleRepository;
@@ -9,11 +11,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @SpringBootApplication
 public class CagoTranspApplication {
 
     @Autowired
     private VehicleRepository vehicleRepository;
+
+    @Autowired
+    private DeliveryRepository deliveryRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CagoTranspApplication.class, args);
@@ -21,6 +29,7 @@ public class CagoTranspApplication {
 
     @Bean
     InitializingBean sendDatabase() {
+        // Seed Vehicles
         Vehicle[] vehicles = {
             new Vehicle()
                 .setBrand("Volvo")
@@ -62,6 +71,28 @@ public class CagoTranspApplication {
 
         for(Vehicle truck : vehicles){
             vehicleRepository.save(truck);
+        }
+
+
+
+        // Seed Deliveries
+        Delivery[] deliveries = {
+            new Delivery()
+                .setCreated(LocalDate.now())
+                .setConclusion(LocalDate.now())
+                .setExpected(LocalDate.now())
+                .setSubTotal(new BigDecimal(780))
+                .setTotal(new BigDecimal(1300)),
+            new Delivery()
+                .setCreated(LocalDate.now())
+                .setConclusion(LocalDate.now())
+                .setExpected(LocalDate.now())
+                .setSubTotal(new BigDecimal(820))
+                .setTotal(new BigDecimal(1900)),
+        };
+
+        for(Delivery delivery : deliveries){
+            deliveryRepository.save(delivery);
         }
 
         return null;
