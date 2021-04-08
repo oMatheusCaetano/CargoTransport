@@ -2,6 +2,8 @@ package br.com.unialfa.cargotransp.CagoTransp;
 
 import br.com.unialfa.cargotransp.CagoTransp.Address.domain.Address;
 import br.com.unialfa.cargotransp.CagoTransp.Cargo.domain.Cargo;
+import br.com.unialfa.cargotransp.CagoTransp.Client.domain.Client;
+import br.com.unialfa.cargotransp.CagoTransp.Client.repository.ClientRepository;
 import br.com.unialfa.cargotransp.CagoTransp.Delivery.domain.Delivery;
 import br.com.unialfa.cargotransp.CagoTransp.Delivery.repository.DeliveryRepository;
 import br.com.unialfa.cargotransp.CagoTransp.Vehicle.domain.Vehicle;
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @SpringBootApplication
 public class CagoTranspApplication {
@@ -24,6 +27,9 @@ public class CagoTranspApplication {
 
     @Autowired
     private DeliveryRepository deliveryRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CagoTranspApplication.class, args);
@@ -38,13 +44,13 @@ public class CagoTranspApplication {
                 .setModel("FH 16")
                 .setNumberOfAxles(6)
                 .setCapacity(10000.0)
-                .setStatus(VehicleStatus.PARKED),
+                .setStatus(VehicleStatus.WORKING),
             new Vehicle()
                 .setBrand("Volvo")
                 .setModel("FH 16")
                 .setNumberOfAxles(6)
                 .setCapacity(10000.0)
-                .setStatus(VehicleStatus.PARKED),
+                .setStatus(VehicleStatus.WORKING),
             new Vehicle()
                 .setBrand("Volvo")
                 .setModel("FH 16")
@@ -62,17 +68,37 @@ public class CagoTranspApplication {
                 .setModel("Mercedes Truck")
                 .setNumberOfAxles(6)
                 .setCapacity(10000.0)
-                .setStatus(VehicleStatus.MAINTENANCE),
+                .setStatus(VehicleStatus.PARKED),
             new Vehicle()
                 .setBrand("Scania")
                 .setModel("Scania Truck")
                 .setNumberOfAxles(8)
                 .setCapacity(12000.0)
-                .setStatus(VehicleStatus.WORKING),
+                .setStatus(VehicleStatus.SOLD),
         };
 
         for(Vehicle truck : vehicles){
             vehicleRepository.save(truck);
+        }
+
+        // Seed Clients
+        Client[] clients = {
+            new Client()
+                .setName("Client Name")
+                .setEmail("email@email.com"),
+            new Client()
+                .setName("Client Name")
+                .setEmail("email@email.com"),
+            new Client()
+                .setName("Client Name")
+                .setEmail("email@email.com"),
+            new Client()
+                .setName("Client Name")
+                .setEmail("email@email.com"),
+        };
+
+        for(Client client : clients){
+            clientRepository.save(client);
         }
 
 
@@ -91,7 +117,7 @@ public class CagoTranspApplication {
         };
 
 
-        // Cargos
+        // Addresses
         Address[] addresses = {
             new Address()
                 .setCity("Goiânia")
@@ -111,6 +137,20 @@ public class CagoTranspApplication {
 
 
         // Seed Deliveries
+        Iterable<Vehicle> iterableVehicles = vehicleRepository.findAll();
+        ArrayList<Vehicle> existingVehicles = new ArrayList<>();
+
+        for (Vehicle vehicle: iterableVehicles) {
+            existingVehicles.add(vehicle);
+        }
+
+        Iterable<Client> iterableClients = clientRepository.findAll();
+        ArrayList<Client> existingClients = new ArrayList<>();
+
+        for (Client client: iterableClients) {
+            existingClients.add(client);
+        }
+
         Delivery[] deliveries = {
             new Delivery()
                 .setCreated(LocalDate.now())
@@ -119,7 +159,9 @@ public class CagoTranspApplication {
                 .setSubTotal(new BigDecimal(780))
                 .setTotal(new BigDecimal(1300))
                 .setCargo(cargos[0])
-                .setAddress(addresses[0]),
+                .setAddress(addresses[0])
+                .setVehicle(existingVehicles.get(0))
+                .setClient(existingClients.get(0)),
             new Delivery()
                 .setCreated(LocalDate.now())
                 .setConclusion(LocalDate.now())
@@ -127,10 +169,12 @@ public class CagoTranspApplication {
                 .setSubTotal(new BigDecimal(820))
                 .setTotal(new BigDecimal(1900))
                 .setCargo(cargos[1])
-                .setAddress(addresses[1]),
+                .setAddress(addresses[1])
+                .setVehicle(existingVehicles.get(0))
+                .setClient(existingClients.get(1)),
         };
 
-        for(Delivery delivery : deliveries){
+        for(Delivery delivery : deliveries) {
             deliveryRepository.save(delivery);
         }
 

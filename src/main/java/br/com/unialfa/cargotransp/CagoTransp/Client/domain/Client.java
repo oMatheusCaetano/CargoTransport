@@ -1,7 +1,5 @@
 package br.com.unialfa.cargotransp.CagoTransp.Client.domain;
 
-import br.com.unialfa.cargotransp.CagoTransp.Address.domain.Address;
-
 import javax.persistence.*;
 
 @Entity

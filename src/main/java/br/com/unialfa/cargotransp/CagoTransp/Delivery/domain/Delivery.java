@@ -3,6 +3,7 @@ package br.com.unialfa.cargotransp.CagoTransp.Delivery.domain;
 import br.com.unialfa.cargotransp.CagoTransp.Address.domain.Address;
 import br.com.unialfa.cargotransp.CagoTransp.Cargo.domain.Cargo;
 import br.com.unialfa.cargotransp.CagoTransp.Client.domain.Client;
+import br.com.unialfa.cargotransp.CagoTransp.Vehicle.domain.Vehicle;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -21,6 +22,12 @@ public class Delivery {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
+    @OneToOne
+    private Vehicle vehicle;
+
+    @OneToOne
+    private Client client;
+
     private LocalDate created;
     private LocalDate expected;
     private LocalDate conclusion;
@@ -30,6 +37,8 @@ public class Delivery {
     public long getId() { return this.id; }
     public Cargo getCargo() { return this.cargo; }
     public Address getAddress() { return this.address; }
+    public Vehicle getVehicle() { return this.vehicle; }
+    public Client getClient() { return this.client; }
     public LocalDate getExpected() { return this.expected; }
     public LocalDate getCreated() { return this.created; }
     public LocalDate getConclusion() { return this.conclusion; }
@@ -48,6 +57,16 @@ public class Delivery {
 
     public Delivery setAddress(Address address) {
         this.address = address;
+        return this;
+    }
+
+    public Delivery setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+        return this;
+    }
+
+    public Delivery setClient(Client client) {
+        this.client = client;
         return this;
     }
 
