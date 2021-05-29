@@ -32,4 +32,5 @@ public class VehicleController {
     @DeleteMapping(path = "/{id}")
     @ResponseBody
     public void destroy(@PathVariable(name = "id") long id) { this.repository.deleteById(id); }
+
 }
